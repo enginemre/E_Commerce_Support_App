@@ -41,12 +41,13 @@ public class SplashActivity extends AppCompatActivity {
         Date lastLoginDate = new Date(lastLogin);
         cal.setTime(lastLoginDate);
         cal.add(Calendar.HOUR, +6);
+        lastLoginDate =cal.getTime();
         // compare last login + 6  and current date
         if(date.after(lastLoginDate)){
             // Refreshing Token because of Access Token Invalid
             Log.w(TAG, "Access token invalid refreshing Token" );
             TokenDao tokenDao = ApiInitialize.getTokenDao();
-            tokenDao.getATwRefreshT(ConfigData.GRANT_TYPE,ConfigData.CLIENT_ID,ConfigData.CLIENT_SECRET,refresh_token).enqueue(new Callback<Token>() {
+            tokenDao.getATwRefreshT(ConfigData.REFRESH_GRANT_TYPE,ConfigData.CLIENT_ID,ConfigData.CLIENT_SECRET,refresh_token).enqueue(new Callback<Token>() {
                 @Override
                 public void onResponse(Call<Token> call, Response<Token> response) {
                     //Checking whether response is successful or failed

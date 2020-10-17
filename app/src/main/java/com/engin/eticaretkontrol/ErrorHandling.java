@@ -32,6 +32,7 @@ public class ErrorHandling  {
     }
 
     public static void recognizeError(Response<?> response, Context context){
+        TokenError error;
         switch (response.code()){
             case 404:
                 Log.w(TAG, "404 Not Found  " );
@@ -39,9 +40,13 @@ public class ErrorHandling  {
             case 500:
                 Log.w(TAG, "500 Server Error");
                 Toast.makeText(context,"500 Server Error",Toast.LENGTH_LONG).show();
-            case 400:
-                Log.w(TAG, "400 Bad Request");
-                TokenError error = ErrorHandling.parseError(response);
+            case 401:
+                Log.w(TAG, "401 Unauthorized");
+                error = ErrorHandling.parseError(response);
+                Toast.makeText(context,error.getErrorDescription(),Toast.LENGTH_LONG).show();
+            default:
+                Log.w(TAG, "Default error running" );
+                error = ErrorHandling.parseError(response);
                 Toast.makeText(context,error.getErrorDescription(),Toast.LENGTH_LONG).show();
         }
     }

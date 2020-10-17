@@ -16,6 +16,7 @@ import com.engin.eticaretkontrol.Activities.DetailsActivity;
 import com.engin.eticaretkontrol.NetProgress.Models.Order;
 import com.engin.eticaretkontrol.R;
 
+import java.text.ParseException;
 import java.util.List;
 
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder> {
@@ -49,6 +50,12 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
     public void onBindViewHolder(@NonNull OrdersViewHolder holder, int position) {
         final Order order = orders.get(position);
         holder.orderIdTV.setText(Integer.toString(order.getId()));
+        try {
+            holder.ordersDate.setText(order.getCreatedAt());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        holder.orderName.setText(order.getCustomerFirstname() +" "+order.getCustomerSurname());
         holder.ordersCV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,14 +72,15 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
     }
 
     public static class OrdersViewHolder extends  RecyclerView.ViewHolder {
-        TextView orderIdTV, orderDescription;
+        TextView orderIdTV, orderName,ordersDate;
         CardView ordersCV;
 
 
         public OrdersViewHolder(@NonNull View itemView) {
             super(itemView);
             orderIdTV =itemView.findViewById(R.id.orderId);
-            orderDescription = itemView.findViewById(R.id.descriptionOfOrder);
+            orderName = itemView.findViewById(R.id.descriptionOfOrder);
+            ordersDate = itemView.findViewById(R.id.dateTV);
             ordersCV = itemView.findViewById(R.id.orderListCV);
         }
     }

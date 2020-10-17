@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="135dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/orderListCV"
         android:layout_width="match_parent"
-        android:layout_height="85dp"
+        android:layout_height="120dp"
         app:cardElevation="8dp"
         app:cardCornerRadius="8dp"
         android:layout_marginHorizontal="3dp"
@@ -45,11 +45,11 @@
                 android:id="@+id/imageView"
                 android:layout_width="52dp"
                 android:layout_height="49dp"
-                android:layout_marginEnd="27dp"
+                android:layout_marginEnd="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.444"
+                app:layout_constraintVertical_bias="0.295"
                 app:srcCompat="@drawable/details" />
 
             <TextView
@@ -58,18 +58,41 @@
                 android:layout_height="23dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="9dp"
-                android:text="Açıklama :"
+                android:layout_marginBottom="7dp"
+                android:text="Ad Soyad :"
+                app:layout_constraintBottom_toTopOf="@+id/textView2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
             <TextView
                 android:id="@+id/descriptionOfOrder"
-                android:layout_width="162dp"
-                android:layout_height="22dp"
+                android:layout_width="208dp"
+                android:layout_height="23dp"
                 android:layout_marginStart="11dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="9dp"
+                app:layout_constraintBottom_toTopOf="@+id/dateTV"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/orderId" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="76dp"
+                android:layout_height="23dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="20dp"
+                android:text="Tarih : "
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView" />
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/dateTV"
+                android:layout_width="294dp"
+                android:layout_height="27dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView2" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

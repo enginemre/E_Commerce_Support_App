@@ -11,7 +11,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -29,6 +28,7 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -53,6 +53,9 @@ public class OrdersActivity extends AppCompatActivity {
         orderTB = findViewById(R.id.ordersTB);
         swipeRefreshLayout = findViewById(R.id.ordersSwipeRefreshLayout);
         preferences = getSharedPreferences("Tokens",0);
+        // saving last login
+        Date date = new Date();
+        preferences.edit().putLong("LastLogin",date.getTime()).apply();
         String token = preferences.getString("access_token","NONE");
         //Toolbar configuration
         setSupportActionBar(orderTB);
@@ -98,7 +101,7 @@ public class OrdersActivity extends AppCompatActivity {
     public void getData(String token){
         Log.w(TAG, "getData: method running..." );
         OrdersDao ordersDao = ApiInitialize.getOrdersDao();
-        ordersDao.getOrders("Bearer "+token).enqueue(new Callback<List<Order>>() {
+        ordersDao.getOrders("Bearer "+token ,"approved","-id").enqueue(new Callback<List<Order>>() {
             @Override
             public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
                 if (response.isSuccessful() && response.body() != null){
@@ -117,7 +120,7 @@ public class OrdersActivity extends AppCompatActivity {
                         if (tokenError.getErrorDescription().equals("The access token provided has expired.")){
                             TokenDao tokenDao = ApiInitialize.getTokenDao();
                             String refresh_token = preferences.getString("refresh_token","NONE");
-                            tokenDao.getATwRefreshT(ConfigData.REFRESH_GRANT_TYPE,ConfigData.CLIENT_ID,ConfigData.CLIENT_ID,refresh_token).enqueue(new Callback<Token>() {
+                            tokenDao.getATwRefreshT(ConfigData.REFRESH_GRANT_TYPE,ConfigData.CLIENT_ID,ConfigData.CLIENT_SECRET,refresh_token).enqueue(new Callback<Token>() {
                                 @Override
                                 public void onResponse(Call<Token> call, Response<Token> response) {
                                     if (response.isSuccessful() && response.body() != null){

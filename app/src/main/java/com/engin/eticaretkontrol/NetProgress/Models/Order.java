@@ -1,7 +1,12 @@
 
 package com.engin.eticaretkontrol.NetProgress.Models;
 
+import android.annotation.SuppressLint;
+
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -186,392 +191,207 @@ public class Order implements Serializable {
         return customerFirstname;
     }
 
-    public void setCustomerFirstname(String customerFirstname) {
-        this.customerFirstname = customerFirstname;
-    }
-
     public String getCustomerSurname() {
         return customerSurname;
-    }
-
-    public void setCustomerSurname(String customerSurname) {
-        this.customerSurname = customerSurname;
     }
 
     public String getCustomerEmail() {
         return customerEmail;
     }
 
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
-    }
 
     public String getCustomerPhone() {
         return customerPhone;
-    }
-
-    public void setCustomerPhone(String customerPhone) {
-        this.customerPhone = customerPhone;
     }
 
     public String getPaymentTypeName() {
         return paymentTypeName;
     }
 
-    public void setPaymentTypeName(String paymentTypeName) {
-        this.paymentTypeName = paymentTypeName;
-    }
-
     public String getPaymentProviderCode() {
         return paymentProviderCode;
-    }
-
-    public void setPaymentProviderCode(String paymentProviderCode) {
-        this.paymentProviderCode = paymentProviderCode;
     }
 
     public String getPaymentProviderName() {
         return paymentProviderName;
     }
 
-    public void setPaymentProviderName(String paymentProviderName) {
-        this.paymentProviderName = paymentProviderName;
-    }
-
     public String getPaymentGatewayCode() {
         return paymentGatewayCode;
-    }
-
-    public void setPaymentGatewayCode(String paymentGatewayCode) {
-        this.paymentGatewayCode = paymentGatewayCode;
     }
 
     public String getPaymentGatewayName() {
         return paymentGatewayName;
     }
 
-    public void setPaymentGatewayName(String paymentGatewayName) {
-        this.paymentGatewayName = paymentGatewayName;
-    }
-
     public String getBankName() {
         return bankName;
-    }
-
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
     }
 
     public String getClientIp() {
         return clientIp;
     }
 
-    public void setClientIp(String clientIp) {
-        this.clientIp = clientIp;
-    }
-
     public String getUserAgent() {
         return userAgent;
-    }
-
-    public void setUserAgent(String userAgent) {
-        this.userAgent = userAgent;
     }
 
     public String getCurrency() {
         return currency;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
     public String getCurrencyRates() {
         return currencyRates;
-    }
-
-    public void setCurrencyRates(String currencyRates) {
-        this.currencyRates = currencyRates;
     }
 
     public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
     public Double getCouponDiscount() {
         return couponDiscount;
-    }
-
-    public void setCouponDiscount(Double couponDiscount) {
-        this.couponDiscount = couponDiscount;
     }
 
     public Double getTaxAmount() {
         return taxAmount;
     }
 
-    public void setTaxAmount(Double taxAmount) {
-        this.taxAmount = taxAmount;
-    }
-
     public Double getTotalCustomTaxAmount() {
         return totalCustomTaxAmount;
-    }
-
-    public void setTotalCustomTaxAmount(Double totalCustomTaxAmount) {
-        this.totalCustomTaxAmount = totalCustomTaxAmount;
     }
 
     public Double getPromotionDiscount() {
         return promotionDiscount;
     }
 
-    public void setPromotionDiscount(Double promotionDiscount) {
-        this.promotionDiscount = promotionDiscount;
-    }
-
     public Double getGeneralAmount() {
         return generalAmount;
-    }
-
-    public void setGeneralAmount(Double generalAmount) {
-        this.generalAmount = generalAmount;
     }
 
     public Double getShippingAmount() {
         return shippingAmount;
     }
 
-    public void setShippingAmount(Double shippingAmount) {
-        this.shippingAmount = shippingAmount;
-    }
-
     public Double getAdditionalServiceAmount() {
         return additionalServiceAmount;
-    }
-
-    public void setAdditionalServiceAmount(Double additionalServiceAmount) {
-        this.additionalServiceAmount = additionalServiceAmount;
     }
 
     public Double getFinalAmount() {
         return finalAmount;
     }
 
-    public void setFinalAmount(Double finalAmount) {
-        this.finalAmount = finalAmount;
-    }
-
     public Double getSumOfGainedPoints() {
         return sumOfGainedPoints;
-    }
-
-    public void setSumOfGainedPoints(Double sumOfGainedPoints) {
-        this.sumOfGainedPoints = sumOfGainedPoints;
     }
 
     public Integer getInstallment() {
         return installment;
     }
 
-    public void setInstallment(Integer installment) {
-        this.installment = installment;
-    }
-
     public Double getInstallmentRate() {
         return installmentRate;
-    }
-
-    public void setInstallmentRate(Double installmentRate) {
-        this.installmentRate = installmentRate;
     }
 
     public Integer getExtraInstallment() {
         return extraInstallment;
     }
 
-    public void setExtraInstallment(Integer extraInstallment) {
-        this.extraInstallment = extraInstallment;
-    }
-
     public String getTransactionId() {
         return transactionId;
-    }
-
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
     }
 
     public Integer getHasUserNote() {
         return hasUserNote;
     }
 
-    public void setHasUserNote(Integer hasUserNote) {
-        this.hasUserNote = hasUserNote;
-    }
-
     public String getStatus() {
         return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getPaymentStatus() {
         return paymentStatus;
     }
 
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
-
     public Object getErrorMessage() {
         return errorMessage;
-    }
-
-    public void setErrorMessage(Object errorMessage) {
-        this.errorMessage = errorMessage;
     }
 
     public String getDeviceType() {
         return deviceType;
     }
 
-    public void setDeviceType(String deviceType) {
-        this.deviceType = deviceType;
-    }
-
     public Object getReferrer() {
         return referrer;
-    }
-
-    public void setReferrer(Object referrer) {
-        this.referrer = referrer;
     }
 
     public Integer getInvoicePrintCount() {
         return invoicePrintCount;
     }
 
-    public void setInvoicePrintCount(Integer invoicePrintCount) {
-        this.invoicePrintCount = invoicePrintCount;
-    }
-
     public Integer getUseGiftPackage() {
         return useGiftPackage;
-    }
-
-    public void setUseGiftPackage(Integer useGiftPackage) {
-        this.useGiftPackage = useGiftPackage;
     }
 
     public Object getGiftNote() {
         return giftNote;
     }
 
-    public void setGiftNote(Object giftNote) {
-        this.giftNote = giftNote;
-    }
-
     public String getMemberGroupName() {
         return memberGroupName;
-    }
-
-    public void setMemberGroupName(String memberGroupName) {
-        this.memberGroupName = memberGroupName;
     }
 
     public Integer getUsePromotion() {
         return usePromotion;
     }
 
-    public void setUsePromotion(Integer usePromotion) {
-        this.usePromotion = usePromotion;
-    }
-
     public String getShippingProviderCode() {
         return shippingProviderCode;
-    }
-
-    public void setShippingProviderCode(String shippingProviderCode) {
-        this.shippingProviderCode = shippingProviderCode;
     }
 
     public String getShippingProviderName() {
         return shippingProviderName;
     }
 
-    public void setShippingProviderName(String shippingProviderName) {
-        this.shippingProviderName = shippingProviderName;
-    }
-
     public String getShippingCompanyName() {
         return shippingCompanyName;
-    }
-
-    public void setShippingCompanyName(String shippingCompanyName) {
-        this.shippingCompanyName = shippingCompanyName;
     }
 
     public String getShippingPaymentType() {
         return shippingPaymentType;
     }
 
-    public void setShippingPaymentType(String shippingPaymentType) {
-        this.shippingPaymentType = shippingPaymentType;
-    }
-
     public String getShippingTrackingCode() {
         return shippingTrackingCode;
-    }
-
-    public void setShippingTrackingCode(String shippingTrackingCode) {
-        this.shippingTrackingCode = shippingTrackingCode;
     }
 
     public String getSource() {
         return source;
     }
 
-    public void setSource(String source) {
-        this.source = source;
-    }
+    // converting date
+    public String getCreatedAt() throws ParseException {
+        String year = createdAt.substring(0,4);
+        String month = createdAt.substring(5,7);
+        String day = createdAt.substring(8,10);
+        String hours = createdAt.substring(11,13);
+        String minutes= createdAt.substring(14,16);
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
+        String date = day+"/"+month+"/"+year+"  "+hours+":"+minutes;
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+        return date;
     }
 
     public String getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 
     public Object getMaillist() {
         return maillist;
     }
 
-    public void setMaillist(Object maillist) {
-        this.maillist = maillist;
-    }
-
     public Member getMember() {
         return member;
-    }
-
-    public void setMember(Member member) {
-        this.member = member;
     }
 
     public List<OrderDetail> getOrderDetails() {
@@ -602,16 +422,8 @@ public class Order implements Serializable {
         return shippingAddress;
     }
 
-    public void setShippingAddress(ShippingAddress shippingAddress) {
-        this.shippingAddress = shippingAddress;
-    }
-
     public BillingAddress getBillingAddress() {
         return billingAddress;
-    }
-
-    public void setBillingAddress(BillingAddress billingAddress) {
-        this.billingAddress = billingAddress;
     }
 
 }

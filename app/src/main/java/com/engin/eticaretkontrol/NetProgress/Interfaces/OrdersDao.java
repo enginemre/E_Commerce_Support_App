@@ -8,12 +8,13 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface OrdersDao {
 
     @GET("api/orders")
-    Call<List<Order>> getOrders(@Header("Authorization") String auth);
+    Call<List<Order>> getOrders(@Header("Authorization") String auth,@Query("status") String status,@Query("sort") String sort);
 
-    @GET("api/orders/")
-    Call<Order> getOrder(@Path("id") int id);
+    @GET("api/orders")
+    Call<List<Order>> getOrders(@Header("Authorization") String auth);
 }
