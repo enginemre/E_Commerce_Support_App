@@ -23,7 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivityTokenProgress";
+    static final String TAG = "MainActivityTokenProgress";
     SharedPreferences preferences;
     CardView orderListCV;
     @SuppressLint("CommitPrefEdits")
@@ -31,12 +31,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        orderListCV = findViewById(R.id.orderListCV);
-        // Creating SharedPreferences for Access Token in Storage.
-        preferences = getSharedPreferences("Tokens",MODE_PRIVATE);
-        // Blocking New token request ib onResume
-        preferences.edit().putBoolean("ControlOnResume",true).apply();
-        // Sending requests for get Authentication
+        initVariable();
+        // Blocking New token request in onResume and  Sending requests for get Authentication
         if(preferences.getBoolean("Control",true)){
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://hakmarmagazacilik.myideasoft.com/admin/user/auth"+"?client_id="+ConfigData.CLIENT_ID +"&response_type="+ConfigData.RESPONSE_TYPE+"&state="+ConfigData.STATE+"&redirect_uri=" + ConfigData.REDIRECT_URI));
             startActivity(intent);
@@ -44,10 +40,16 @@ public class MainActivity extends AppCompatActivity {
             preferences.edit().putBoolean("Control",false).apply();
         }
         Toast.makeText(this,preferences.getString("access_token","NONE"),Toast.LENGTH_SHORT).show();
-        orderListCV.setOnClickListener(view -> startActivity(new Intent(MainActivity.this,OrdersActivity.class)));
-
+        orderListCV.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, OrdersTabActivity.class)));
     }
 
+    public void initVariable(){
+        orderListCV = findViewById(R.id.orderListCV);
+        // Creating SharedPreferences for Access Token in Storage.
+        preferences = getSharedPreferences("Tokens",MODE_PRIVATE);
+        // Blocking New token request in onResume
+        preferences.edit().putBoolean("ControlOnResume",true).apply();
+    }
 
     @Override
     protected void onResume() {

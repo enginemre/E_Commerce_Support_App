@@ -1,12 +1,16 @@
 
 package com.engin.eticaretkontrol.NetProgress.Models;
 
-import java.io.Serializable;
-import java.util.List;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class OrderItem implements Serializable {
+import java.util.ArrayList;
+import java.util.List;
+
+public class OrderItem implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -64,136 +68,183 @@ public class OrderItem implements Serializable {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getProductName() {
         return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
     }
 
     public String getProductSku() {
         return productSku;
     }
 
-    public void setProductSku(String productSku) {
-        this.productSku = productSku;
-    }
-
     public String getProductBarcode() {
         return productBarcode;
-    }
-
-    public void setProductBarcode(String productBarcode) {
-        this.productBarcode = productBarcode;
     }
 
     public Double getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(Double productPrice) {
-        this.productPrice = productPrice;
-    }
-
     public String getProductCurrency() {
         return productCurrency;
-    }
-
-    public void setProductCurrency(String productCurrency) {
-        this.productCurrency = productCurrency;
     }
 
     public Double getProductQuantity() {
         return productQuantity;
     }
 
-    public void setProductQuantity(Double productQuantity) {
-        this.productQuantity = productQuantity;
-    }
-
     public Integer getProductTax() {
         return productTax;
-    }
-
-    public void setProductTax(Integer productTax) {
-        this.productTax = productTax;
     }
 
     public Double getProductDiscount() {
         return productDiscount;
     }
 
-    public void setProductDiscount(Double productDiscount) {
-        this.productDiscount = productDiscount;
-    }
-
     public Double getProductMoneyOrderDiscount() {
         return productMoneyOrderDiscount;
-    }
-
-    public void setProductMoneyOrderDiscount(Double productMoneyOrderDiscount) {
-        this.productMoneyOrderDiscount = productMoneyOrderDiscount;
     }
 
     public Double getProductWeight() {
         return productWeight;
     }
 
-    public void setProductWeight(Double productWeight) {
-        this.productWeight = productWeight;
-    }
-
     public String getProductStockTypeLabel() {
         return productStockTypeLabel;
-    }
-
-    public void setProductStockTypeLabel(String productStockTypeLabel) {
-        this.productStockTypeLabel = productStockTypeLabel;
     }
 
     public Integer getIsProductPromotioned() {
         return isProductPromotioned;
     }
 
-    public void setIsProductPromotioned(Integer isProductPromotioned) {
-        this.isProductPromotioned = isProductPromotioned;
-    }
-
     public Double getDiscount() {
         return discount;
-    }
-
-    public void setDiscount(Double discount) {
-        this.discount = discount;
     }
 
     public Product getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
     public List<Object> getOrderItemCustomizations() {
         return orderItemCustomizations;
-    }
-
-    public void setOrderItemCustomizations(List<Object> orderItemCustomizations) {
-        this.orderItemCustomizations = orderItemCustomizations;
     }
 
     public Object getOrderItemSubscription() {
         return orderItemSubscription;
     }
 
-    public void setOrderItemSubscription(Object orderItemSubscription) {
-        this.orderItemSubscription = orderItemSubscription;
+    protected OrderItem(Parcel in) {
+        id = in.readByte() == 0x00 ? null : in.readInt();
+        productName = in.readString();
+        productSku = in.readString();
+        productBarcode = in.readString();
+        productPrice = in.readByte() == 0x00 ? null : in.readDouble();
+        productCurrency = in.readString();
+        productQuantity = in.readByte() == 0x00 ? null : in.readDouble();
+        productTax = in.readByte() == 0x00 ? null : in.readInt();
+        productDiscount = in.readByte() == 0x00 ? null : in.readDouble();
+        productMoneyOrderDiscount = in.readByte() == 0x00 ? null : in.readDouble();
+        productWeight = in.readByte() == 0x00 ? null : in.readDouble();
+        productStockTypeLabel = in.readString();
+        isProductPromotioned = in.readByte() == 0x00 ? null : in.readInt();
+        discount = in.readByte() == 0x00 ? null : in.readDouble();
+        product = (Product) in.readValue(Product.class.getClassLoader());
+        if (in.readByte() == 0x01) {
+            orderItemCustomizations = new ArrayList<Object>();
+            in.readList(orderItemCustomizations, Object.class.getClassLoader());
+        } else {
+            orderItemCustomizations = null;
+        }
+        orderItemSubscription = (Object) in.readValue(Object.class.getClassLoader());
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(id);
+        }
+        dest.writeString(productName);
+        dest.writeString(productSku);
+        dest.writeString(productBarcode);
+        if (productPrice == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(productPrice);
+        }
+        dest.writeString(productCurrency);
+        if (productQuantity == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(productQuantity);
+        }
+        if (productTax == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(productTax);
+        }
+        if (productDiscount == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(productDiscount);
+        }
+        if (productMoneyOrderDiscount == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(productMoneyOrderDiscount);
+        }
+        if (productWeight == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(productWeight);
+        }
+        dest.writeString(productStockTypeLabel);
+        if (isProductPromotioned == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(isProductPromotioned);
+        }
+        if (discount == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(discount);
+        }
+        dest.writeValue(product);
+        if (orderItemCustomizations == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(orderItemCustomizations);
+        }
+        dest.writeValue(orderItemSubscription);
+    }
+
+
+    public static final Parcelable.Creator<OrderItem> CREATOR = new Parcelable.Creator<OrderItem>() {
+        @Override
+        public OrderItem createFromParcel(Parcel in) {
+            return new OrderItem(in);
+        }
+
+        @Override
+        public OrderItem[] newArray(int size) {
+            return new OrderItem[size];
+        }
+    };
 
 }

@@ -1,12 +1,13 @@
 
 package com.engin.eticaretkontrol.NetProgress.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class BillingAddress implements Serializable {
+public class BillingAddress implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -52,104 +53,107 @@ public class BillingAddress implements Serializable {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getFirstname() {
         return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
     }
 
     public String getSurname() {
         return surname;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
     public String getCountry() {
         return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
     }
 
     public String getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public String getSubLocation() {
         return subLocation;
-    }
-
-    public void setSubLocation(String subLocation) {
-        this.subLocation = subLocation;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getMobilePhoneNumber() {
         return mobilePhoneNumber;
     }
 
-    public void setMobilePhoneNumber(String mobilePhoneNumber) {
-        this.mobilePhoneNumber = mobilePhoneNumber;
-    }
-
     public String getInvoiceType() {
         return invoiceType;
-    }
-
-    public void setInvoiceType(String invoiceType) {
-        this.invoiceType = invoiceType;
     }
 
     public Object getTaxNo() {
         return taxNo;
     }
 
-    public void setTaxNo(Object taxNo) {
-        this.taxNo = taxNo;
-    }
-
     public Object getTaxOffice() {
         return taxOffice;
-    }
-
-    public void setTaxOffice(Object taxOffice) {
-        this.taxOffice = taxOffice;
     }
 
     public String getIdentityRegistrationNumber() {
         return identityRegistrationNumber;
     }
 
-    public void setIdentityRegistrationNumber(String identityRegistrationNumber) {
-        this.identityRegistrationNumber = identityRegistrationNumber;
+    protected BillingAddress(Parcel in) {
+        id = in.readByte() == 0x00 ? null : in.readInt();
+        firstname = in.readString();
+        surname = in.readString();
+        country = in.readString();
+        location = in.readString();
+        subLocation = in.readString();
+        address = in.readString();
+        phoneNumber = in.readString();
+        mobilePhoneNumber = in.readString();
+        invoiceType = in.readString();
+        taxNo = (Object) in.readValue(Object.class.getClassLoader());
+        taxOffice = (Object) in.readValue(Object.class.getClassLoader());
+        identityRegistrationNumber = in.readString();
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(id);
+        }
+        dest.writeString(firstname);
+        dest.writeString(surname);
+        dest.writeString(country);
+        dest.writeString(location);
+        dest.writeString(subLocation);
+        dest.writeString(address);
+        dest.writeString(phoneNumber);
+        dest.writeString(mobilePhoneNumber);
+        dest.writeString(invoiceType);
+        dest.writeValue(taxNo);
+        dest.writeValue(taxOffice);
+        dest.writeString(identityRegistrationNumber);
+    }
+
+    public static final Parcelable.Creator<BillingAddress> CREATOR = new Parcelable.Creator<BillingAddress>() {
+        @Override
+        public BillingAddress createFromParcel(Parcel in) {
+            return new BillingAddress(in);
+        }
+
+        @Override
+        public BillingAddress[] newArray(int size) {
+            return new BillingAddress[size];
+        }
+    };
 
 }

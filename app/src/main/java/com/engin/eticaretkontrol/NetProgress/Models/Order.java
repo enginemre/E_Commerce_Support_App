@@ -1,17 +1,16 @@
 
 package com.engin.eticaretkontrol.NetProgress.Models;
 
-import android.annotation.SuppressLint;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Order implements Serializable {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Order implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -179,12 +178,17 @@ public class Order implements Serializable {
     @Expose
     private BillingAddress billingAddress;
 
-    public Integer getId() {
-        return id;
+    public Integer collectedState;
+
+    public Integer getCollectedState() {
+        if (collectedState == null){
+            collectedState =0;
+        }
+        return collectedState;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Integer getId() {
+        return id;
     }
 
     public String getCustomerFirstname() {
@@ -369,16 +373,14 @@ public class Order implements Serializable {
     }
 
     // converting date
-    public String getCreatedAt() throws ParseException {
+    public String getCreatedAt() {
         String year = createdAt.substring(0,4);
         String month = createdAt.substring(5,7);
         String day = createdAt.substring(8,10);
         String hours = createdAt.substring(11,13);
         String minutes= createdAt.substring(14,16);
 
-        String date = day+"/"+month+"/"+year+"  "+hours+":"+minutes;
-
-        return date;
+        return day+"/"+month+"/"+year+"  "+hours+":"+minutes;
     }
 
     public String getUpdatedAt() {
@@ -398,24 +400,13 @@ public class Order implements Serializable {
         return orderDetails;
     }
 
-    public void setOrderDetails(List<OrderDetail> orderDetails) {
-        this.orderDetails = orderDetails;
-    }
 
     public List<OrderItem> getOrderItems() {
         return orderItems;
     }
 
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
-    }
-
     public List<Object> getOrderCustomTaxLines() {
         return orderCustomTaxLines;
-    }
-
-    public void setOrderCustomTaxLines(List<Object> orderCustomTaxLines) {
-        this.orderCustomTaxLines = orderCustomTaxLines;
     }
 
     public ShippingAddress getShippingAddress() {
@@ -426,4 +417,330 @@ public class Order implements Serializable {
         return billingAddress;
     }
 
+    protected Order(Parcel in) {
+        id = in.readByte() == 0x00 ? null : in.readInt();
+        customerFirstname = in.readString();
+        customerSurname = in.readString();
+        customerEmail = in.readString();
+        customerPhone = in.readString();
+        paymentTypeName = in.readString();
+        paymentProviderCode = in.readString();
+        paymentProviderName = in.readString();
+        paymentGatewayCode = in.readString();
+        paymentGatewayName = in.readString();
+        bankName = in.readString();
+        clientIp = in.readString();
+        userAgent = in.readString();
+        currency = in.readString();
+        currencyRates = in.readString();
+        amount = in.readByte() == 0x00 ? null : in.readDouble();
+        couponDiscount = in.readByte() == 0x00 ? null : in.readDouble();
+        taxAmount = in.readByte() == 0x00 ? null : in.readDouble();
+        totalCustomTaxAmount = in.readByte() == 0x00 ? null : in.readDouble();
+        promotionDiscount = in.readByte() == 0x00 ? null : in.readDouble();
+        generalAmount = in.readByte() == 0x00 ? null : in.readDouble();
+        shippingAmount = in.readByte() == 0x00 ? null : in.readDouble();
+        additionalServiceAmount = in.readByte() == 0x00 ? null : in.readDouble();
+        finalAmount = in.readByte() == 0x00 ? null : in.readDouble();
+        sumOfGainedPoints = in.readByte() == 0x00 ? null : in.readDouble();
+        installment = in.readByte() == 0x00 ? null : in.readInt();
+        installmentRate = in.readByte() == 0x00 ? null : in.readDouble();
+        extraInstallment = in.readByte() == 0x00 ? null : in.readInt();
+        transactionId = in.readString();
+        hasUserNote = in.readByte() == 0x00 ? null : in.readInt();
+        status = in.readString();
+        paymentStatus = in.readString();
+        errorMessage = (Object) in.readValue(Object.class.getClassLoader());
+        deviceType = in.readString();
+        referrer = (Object) in.readValue(Object.class.getClassLoader());
+        invoicePrintCount = in.readByte() == 0x00 ? null : in.readInt();
+        useGiftPackage = in.readByte() == 0x00 ? null : in.readInt();
+        giftNote = (Object) in.readValue(Object.class.getClassLoader());
+        memberGroupName = in.readString();
+        usePromotion = in.readByte() == 0x00 ? null : in.readInt();
+        shippingProviderCode = in.readString();
+        shippingProviderName = in.readString();
+        shippingCompanyName = in.readString();
+        shippingPaymentType = in.readString();
+        shippingTrackingCode = in.readString();
+        source = in.readString();
+        createdAt = in.readString();
+        updatedAt = in.readString();
+        maillist = (Object) in.readValue(Object.class.getClassLoader());
+        member = (Member) in.readValue(Member.class.getClassLoader());
+        if (in.readByte() == 0x01) {
+            orderDetails = new ArrayList<OrderDetail>();
+            in.readList(orderDetails, OrderDetail.class.getClassLoader());
+        } else {
+            orderDetails = null;
+        }
+        if (in.readByte() == 0x01) {
+            orderItems = new ArrayList<OrderItem>();
+            in.readList(orderItems, OrderItem.class.getClassLoader());
+        } else {
+            orderItems = null;
+        }
+        if (in.readByte() == 0x01) {
+            orderCustomTaxLines = new ArrayList<Object>();
+            in.readList(orderCustomTaxLines, Object.class.getClassLoader());
+        } else {
+            orderCustomTaxLines = null;
+        }
+        shippingAddress = (ShippingAddress) in.readValue(ShippingAddress.class.getClassLoader());
+        billingAddress = (BillingAddress) in.readValue(BillingAddress.class.getClassLoader());
+        collectedState = in.readByte() == 0x00 ? null : in.readInt();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(id);
+        }
+        dest.writeString(customerFirstname);
+        dest.writeString(customerSurname);
+        dest.writeString(customerEmail);
+        dest.writeString(customerPhone);
+        dest.writeString(paymentTypeName);
+        dest.writeString(paymentProviderCode);
+        dest.writeString(paymentProviderName);
+        dest.writeString(paymentGatewayCode);
+        dest.writeString(paymentGatewayName);
+        dest.writeString(bankName);
+        dest.writeString(clientIp);
+        dest.writeString(userAgent);
+        dest.writeString(currency);
+        dest.writeString(currencyRates);
+        if (amount == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(amount);
+        }
+        if (couponDiscount == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(couponDiscount);
+        }
+        if (taxAmount == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(taxAmount);
+        }
+        if (totalCustomTaxAmount == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(totalCustomTaxAmount);
+        }
+        if (promotionDiscount == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(promotionDiscount);
+        }
+        if (generalAmount == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(generalAmount);
+        }
+        if (shippingAmount == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(shippingAmount);
+        }
+        if (additionalServiceAmount == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(additionalServiceAmount);
+        }
+        if (finalAmount == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(finalAmount);
+        }
+        if (sumOfGainedPoints == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(sumOfGainedPoints);
+        }
+        if (installment == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(installment);
+        }
+        if (installmentRate == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(installmentRate);
+        }
+        if (extraInstallment == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(extraInstallment);
+        }
+        dest.writeString(transactionId);
+        if (hasUserNote == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(hasUserNote);
+        }
+        dest.writeString(status);
+        dest.writeString(paymentStatus);
+        dest.writeValue(errorMessage);
+        dest.writeString(deviceType);
+        dest.writeValue(referrer);
+        if (invoicePrintCount == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(invoicePrintCount);
+        }
+        if (useGiftPackage == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(useGiftPackage);
+        }
+        dest.writeValue(giftNote);
+        dest.writeString(memberGroupName);
+        if (usePromotion == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(usePromotion);
+        }
+        dest.writeString(shippingProviderCode);
+        dest.writeString(shippingProviderName);
+        dest.writeString(shippingCompanyName);
+        dest.writeString(shippingPaymentType);
+        dest.writeString(shippingTrackingCode);
+        dest.writeString(source);
+        dest.writeString(createdAt);
+        dest.writeString(updatedAt);
+        dest.writeValue(maillist);
+        dest.writeValue(member);
+        if (orderDetails == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(orderDetails);
+        }
+        if (orderItems == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(orderItems);
+        }
+        if (orderCustomTaxLines == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(orderCustomTaxLines);
+        }
+        dest.writeValue(shippingAddress);
+        dest.writeValue(billingAddress);
+        if (collectedState == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(collectedState);
+        }
+    }
+
+    public static final Parcelable.Creator<Order> CREATOR = new Parcelable.Creator<Order>() {
+        @Override
+        public Order createFromParcel(Parcel in) {
+            return new Order(in);
+        }
+
+        @Override
+        public Order[] newArray(int size) {
+            return new Order[size];
+        }
+    };
+
+
+    // Comparing two List and find unique elements after that adding temp list
+    public static List<Order> compareList(List<Order> dynamicList,List<Order> l2){
+        List<Order> comparedList =new ArrayList<>();
+        if (dynamicList.size()>l2.size())  {
+            for (Order o:dynamicList){
+                boolean unique = true;
+                for (Order o2: l2){
+                    if (o.getId().equals(o2.getId())){
+                        unique = false;
+                        break;
+                    }
+                }
+                if (unique){
+                    comparedList.add(o);
+                }
+            }
+
+        }
+        else if(l2.size()>dynamicList.size()){
+            for(Order o:l2){
+                boolean unique = true;
+                for (Order o2:dynamicList){
+                    if (o.getId().equals(o2.getId())){
+                        unique = false;
+                        break;
+                    }
+                }
+                if (unique){
+                    comparedList.add(o);
+                }
+            }
+        }
+        else{
+            return comparedList;
+        }
+        return comparedList;
+    }
+
+    // adding items from list
+    public static List<Order> addItems( List<Order> l1, List<Order> l2){
+        int i =0;
+        for (Order o :l2){
+            l1.add(i,o);
+            i++;
+        }
+        return l1;
+    }
+    // delete items from list
+    public static List<Order> deleteItems(List<Order> l1,List<Order> l2){
+        for (Order o :l2){
+
+            l1.remove(o);
+        }
+        return l1;
+    }
+    // find orginal item in list
+    public static  int findItem(Order order,List<Order> list){
+        for(Order o:list){
+            if (order.getId().equals(o.getId())){
+                return list.indexOf(o);
+            }
+        }
+        return -1;
+    }
 }

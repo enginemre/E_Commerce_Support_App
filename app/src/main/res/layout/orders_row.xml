@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="135dp">
 
@@ -45,11 +44,11 @@
                 android:id="@+id/imageView"
                 android:layout_width="52dp"
                 android:layout_height="49dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.295"
+                app:layout_constraintVertical_bias="0.436"
                 app:srcCompat="@drawable/details" />
 
             <TextView
@@ -87,13 +86,12 @@
 
             <TextView
                 android:id="@+id/dateTV"
-                android:layout_width="294dp"
-                android:layout_height="27dp"
+                android:layout_width="207dp"
+                android:layout_height="24dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginBottom="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView2" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

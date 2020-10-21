@@ -1,12 +1,16 @@
 package com.engin.eticaretkontrol.Adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -22,16 +26,20 @@ import java.util.List;
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder> {
 
     private Context context;
+    Activity activity;
     private List<Order> orders;
 
-    public OrdersAdapter(Context context, List<Order> orders) {
+    public OrdersAdapter(Context context,Activity activity, List<Order> orders) {
         this.context = context;
         this.orders = orders;
+        this.activity = activity;
     }
 
     public void setOrdersList(List<Order> ordersList){
         this.orders = ordersList;
     }
+
+    public List<Order> getOrdersList(){ return this.orders;}
 
     public void clear(){
         orders.clear();
@@ -50,21 +58,32 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
     public void onBindViewHolder(@NonNull OrdersViewHolder holder, int position) {
         final Order order = orders.get(position);
         holder.orderIdTV.setText(Integer.toString(order.getId()));
-        try {
-            holder.ordersDate.setText(order.getCreatedAt());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        holder.ordersDate.setText(order.getCreatedAt());
         holder.orderName.setText(order.getCustomerFirstname() +" "+order.getCustomerSurname());
-        holder.ordersCV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        holder.ordersCV.setOnClickListener(view -> {
+
+            AlertDialog.Builder alertDialog=new AlertDialog.Builder(activity);
+
+            alertDialog.setMessage("Siparişi Toplamaya Başlamak İstiyor musunuz ?");
+            alertDialog.setIcon(R.drawable.ic_baseline_warning_24);
+            alertDialog.setTitle("Sipariş Topla");
+            alertDialog.setPositiveButton("Evet", (dialogInterface, i) -> {
                 Intent intent = new Intent(context, DetailsActivity.class);
                 intent.putExtra("Order",order);
-                context.startActivity(intent);
-            }
+                activity.startActivity(intent);
+                activity.finish();
+            });
+            alertDialog.setNegativeButton("Vazgeç", (dialogInterface, i) -> {
+                Toast.makeText(context,"Vazgeçildi",Toast.LENGTH_SHORT).show();
+                dialogInterface.cancel();
+            });
+           AlertDialog alertDialog1 = alertDialog.create();
+           alertDialog1.show();
+
+
         });
     }
+
 
     @Override
     public int getItemCount() {
@@ -74,8 +93,6 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
     public static class OrdersViewHolder extends  RecyclerView.ViewHolder {
         TextView orderIdTV, orderName,ordersDate;
         CardView ordersCV;
-
-
         public OrdersViewHolder(@NonNull View itemView) {
             super(itemView);
             orderIdTV =itemView.findViewById(R.id.orderId);

@@ -18,6 +18,7 @@ public class ErrorHandling  {
 
     private static final String TAG = "ErrorHandling";
 
+    // parse response to TokenError
     public static TokenError parseError(Response<?> response){
         Converter<ResponseBody, TokenError> converter =
                RetrofitClient.getClient().responseBodyConverter(TokenError.class, new Annotation[0]);
@@ -31,6 +32,7 @@ public class ErrorHandling  {
         return error;
     }
 
+    // Handled Error
     public static void recognizeError(Response<?> response, Context context){
         TokenError error;
         switch (response.code()){
@@ -43,7 +45,7 @@ public class ErrorHandling  {
             case 401:
                 Log.w(TAG, "401 Unauthorized");
                 error = ErrorHandling.parseError(response);
-                Toast.makeText(context,error.getErrorDescription(),Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"Tekrar Deneyiniz"+error.getErrorDescription(),Toast.LENGTH_LONG).show();
             default:
                 Log.w(TAG, "Default error running" );
                 error = ErrorHandling.parseError(response);

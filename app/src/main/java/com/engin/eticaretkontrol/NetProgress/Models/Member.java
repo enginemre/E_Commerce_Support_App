@@ -1,12 +1,13 @@
 
 package com.engin.eticaretkontrol.NetProgress.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class Member implements Serializable {
+public class Member implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -43,80 +44,89 @@ public class Member implements Serializable {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getFirstname() {
         return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
     }
 
     public String getSurname() {
         return surname;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getMobilePhoneNumber() {
         return mobilePhoneNumber;
     }
 
-    public void setMobilePhoneNumber(String mobilePhoneNumber) {
-        this.mobilePhoneNumber = mobilePhoneNumber;
-    }
-
     public String getAddress() {
         return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public MemberGroup getMemberGroup() {
         return memberGroup;
     }
 
-    public void setMemberGroup(MemberGroup memberGroup) {
-        this.memberGroup = memberGroup;
+    protected Member(Parcel in) {
+        id = in.readByte() == 0x00 ? null : in.readInt();
+        firstname = in.readString();
+        surname = in.readString();
+        email = in.readString();
+        gender = in.readString();
+        phoneNumber = in.readString();
+        mobilePhoneNumber = in.readString();
+        address = in.readString();
+        status = in.readString();
+        memberGroup = (MemberGroup) in.readValue(MemberGroup.class.getClassLoader());
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(id);
+        }
+        dest.writeString(firstname);
+        dest.writeString(surname);
+        dest.writeString(email);
+        dest.writeString(gender);
+        dest.writeString(phoneNumber);
+        dest.writeString(mobilePhoneNumber);
+        dest.writeString(address);
+        dest.writeString(status);
+        dest.writeValue(memberGroup);
+    }
+
+    public static final Parcelable.Creator<Member> CREATOR = new Parcelable.Creator<Member>() {
+        @Override
+        public Member createFromParcel(Parcel in) {
+            return new Member(in);
+        }
+
+        @Override
+        public Member[] newArray(int size) {
+            return new Member[size];
+        }
+    };
 
 }

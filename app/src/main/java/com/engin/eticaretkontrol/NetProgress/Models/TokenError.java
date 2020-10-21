@@ -17,7 +17,6 @@ public class TokenError {
         return error;
     }
 
-
     public String getErrorDescription() {
         return errorDescription;
     }
