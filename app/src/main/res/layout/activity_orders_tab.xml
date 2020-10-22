@@ -23,17 +23,17 @@
         android:id="@+id/ordersTabLayout"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="#ffffff"
+        android:background="#fafafa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ordersTB"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="#FFFFFF"
+        app:tabGravity="center"
+        app:tabIndicatorColor="@color/HakmarGreen"
         app:tabIndicatorFullWidth="false"
         app:tabIndicatorGravity="bottom"
         app:tabInlineLabel="true"
-        app:tabMode="scrollable"
-        app:tabSelectedTextColor="#7FBA27">
+        app:tabMode="auto"
+        app:tabSelectedTextColor="@color/HakmarGreen">
 
 
     </com.google.android.material.tabs.TabLayout>

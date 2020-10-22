@@ -9,11 +9,13 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.engin.eticaretkontrol.Activities.DetailsActivity;
@@ -60,6 +62,10 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
         holder.orderIdTV.setText(Integer.toString(order.getId()));
         holder.ordersDate.setText(order.getCreatedAt());
         holder.orderName.setText(order.getCustomerFirstname() +" "+order.getCustomerSurname());
+        // changing ımageview by collected state
+        if(order.getCollectedState() == 2){
+            holder.ordersIV.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.collected));
+        }
         holder.ordersCV.setOnClickListener(view -> {
 
             AlertDialog.Builder alertDialog=new AlertDialog.Builder(activity);
@@ -71,6 +77,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
                 Intent intent = new Intent(context, DetailsActivity.class);
                 intent.putExtra("Order",order);
                 activity.startActivity(intent);
+                activity.overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
                 activity.finish();
             });
             alertDialog.setNegativeButton("Vazgeç", (dialogInterface, i) -> {
@@ -82,6 +89,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
 
 
         });
+
     }
 
 
@@ -93,12 +101,14 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
     public static class OrdersViewHolder extends  RecyclerView.ViewHolder {
         TextView orderIdTV, orderName,ordersDate;
         CardView ordersCV;
+        ImageView ordersIV;
         public OrdersViewHolder(@NonNull View itemView) {
             super(itemView);
             orderIdTV =itemView.findViewById(R.id.orderId);
-            orderName = itemView.findViewById(R.id.descriptionOfOrder);
+            orderName = itemView.findViewById(R.id.ordersRowName);
             ordersDate = itemView.findViewById(R.id.dateTV);
             ordersCV = itemView.findViewById(R.id.orderListCV);
+            ordersIV =itemView.findViewById(R.id.ordersRowIV);
         }
     }
 }

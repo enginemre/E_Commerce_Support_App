@@ -4,6 +4,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,11 +29,18 @@ import retrofit2.Response;
 public class SplashActivity extends AppCompatActivity {
     private static final String TAG = "SplashActivity";
     SharedPreferences preferences;
+    ImageView logoIV;
+    TextView titleTV;
+    Animation logoAnimation,textAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        logoIV = findViewById(R.id.logoSplash);
+        titleTV = findViewById(R.id.titleSplash);
+        // runAnimation
+        runAnimation();
         // Getting refresh token from SharedPreferences
         preferences = getSharedPreferences("Tokens",MODE_PRIVATE);
         String refresh_token = preferences.getString("refresh_token","NONE");
@@ -77,6 +88,13 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
+    private void runAnimation() {
+        logoAnimation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.splash_screen_logo);
+        logoIV.startAnimation(logoAnimation);
+        textAnimation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.splash_screen_text);
+        titleTV.startAnimation(textAnimation);
+    }
+
     class SplashThread extends Thread   {
         @Override
         public void run() {
@@ -84,10 +102,13 @@ public class SplashActivity extends AppCompatActivity {
                 Thread.sleep(3000);
                 Intent intent = new Intent(SplashActivity.this,MainActivity.class);
                 startActivity(intent);
+                //transation
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                 finish();
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
     }
+
 }

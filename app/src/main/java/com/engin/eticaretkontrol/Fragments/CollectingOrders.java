@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.engin.eticaretkontrol.Adapters.OrdersAdapter;
 import com.engin.eticaretkontrol.ConfigData;
 import com.engin.eticaretkontrol.NetProgress.Models.Order;
@@ -27,6 +29,8 @@ public class CollectingOrders extends Fragment {
     OrdersAdapter ordersAdapter;
     List<Order> collectingOrderList = new ArrayList<>();
     SharedPreferences listPreferences;
+    LottieAnimationView lottieAnimationView;
+    TextView notFoundTV;
     SwipeRefreshLayout collectingSwipeRefreshLayout;
     @Nullable
     @Override
@@ -35,6 +39,8 @@ public class CollectingOrders extends Fragment {
         View root = inflater.inflate(R.layout.fragment_collecting_orders,container,false);
         collectingOrderRV = root.findViewById(R.id.collectingOrdersRV);
         collectingSwipeRefreshLayout = root.findViewById(R.id.collectingOrdersSwipeRefreshLayout);
+        lottieAnimationView = root.findViewById(R.id.animationViewCollectingOrders);
+        notFoundTV = root.findViewById(R.id.notFoundTVCollecting);
         collectingOrderRV.setHasFixedSize(true);
         collectingOrderRV.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         listPreferences = getActivity().getSharedPreferences("list",0);
@@ -42,7 +48,12 @@ public class CollectingOrders extends Fragment {
         if (ConfigData.getList(listPreferences,"localList") != null){
             // list debuging and cleaning by collecting state
             collectingOrderList = ConfigData.getList(listPreferences,"localList");
-            collectingOrderList.removeIf((Order o) -> o.collectedState != 1);
+            collectingOrderList.removeIf((Order o) -> o.getCollectedState() != 1);
+        }
+        // checking size and giving information
+        if (collectingOrderList.size() == 0){
+            lottieAnimationView.setVisibility(View.VISIBLE);
+            notFoundTV.setVisibility(View.VISIBLE);
         }
         ordersAdapter =new OrdersAdapter(getActivity().getApplicationContext(),getActivity(),collectingOrderList);
         collectingOrderRV.setAdapter(ordersAdapter);
@@ -56,6 +67,7 @@ public class CollectingOrders extends Fragment {
             ordersAdapter.clear();
             getActivity().finish();
             getActivity().startActivity(getActivity().getIntent());
+            getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             collectingSwipeRefreshLayout.setRefreshing(false);
         });
 

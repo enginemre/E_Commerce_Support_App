@@ -1,10 +1,14 @@
 package com.engin.eticaretkontrol.Fragments;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.engin.eticaretkontrol.Adapters.OrdersAdapter;
 import com.engin.eticaretkontrol.ConfigData;
 import com.engin.eticaretkontrol.NetProgress.Models.Order;
@@ -27,6 +32,8 @@ public class ApprovedOrders extends Fragment {
     OrdersAdapter ordersAdapter;
     SwipeRefreshLayout approvedSwipeRefreshLayout;
     SharedPreferences listPreferences;
+    LottieAnimationView lottieAnimationView;
+    TextView notFoundTV;
     List<Order> approvedList = new ArrayList<>();
     List<Order> temp = new ArrayList<>();
     @Nullable
@@ -36,6 +43,8 @@ public class ApprovedOrders extends Fragment {
         View root = inflater.inflate(R.layout.fragment_approved_orders,container,false);
         approvedOrderRV = root.findViewById(R.id.approvedOrdersRV);
         approvedSwipeRefreshLayout = root.findViewById(R.id.approvedOrdersSwipeRefreshLayout);
+        lottieAnimationView = root.findViewById(R.id.animationViewAprrovedOrders);
+        notFoundTV = root.findViewById(R.id.notFoundTVApproved);
         approvedOrderRV.setHasFixedSize(true);
         approvedOrderRV.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         // getting list from memory
@@ -50,6 +59,11 @@ public class ApprovedOrders extends Fragment {
             }
            approvedList= Order.deleteItems(approvedList,temp);
         }
+        // checking size and giving information
+        if (approvedList.size() == 0){
+            lottieAnimationView.setVisibility(View.VISIBLE);
+            notFoundTV.setVisibility(View.VISIBLE);
+        }
         ordersAdapter =new OrdersAdapter(getActivity().getApplicationContext(),getActivity(),approvedList);
         approvedOrderRV.setAdapter(ordersAdapter);
 
@@ -63,11 +77,21 @@ public class ApprovedOrders extends Fragment {
             ordersAdapter.clear();
             getActivity().finish();
             getActivity().startActivity(getActivity().getIntent());
+            getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             ordersAdapter.notifyDataSetChanged();
             approvedSwipeRefreshLayout.setRefreshing(false);
         });
 
         return root;
+    }
+
+    // setting animation
+    public void layoutAnimation(RecyclerView recyclerView){
+        Context context = recyclerView.getContext();
+        LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(context,R.anim.layout_fall_down);
+        recyclerView.setLayoutAnimation(layoutAnimationController);
+        recyclerView.getAdapter().notifyDataSetChanged();
+        recyclerView.scheduleLayoutAnimation();
     }
 
 

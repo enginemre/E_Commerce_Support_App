@@ -21,6 +21,7 @@ import com.engin.eticaretkontrol.ErrorHandling;
 import com.engin.eticaretkontrol.Fragments.ApprovedOrders;
 import com.engin.eticaretkontrol.Fragments.CollectOrders;
 import com.engin.eticaretkontrol.Fragments.CollectingOrders;
+import com.engin.eticaretkontrol.Fragments.LoadingDialogFragment;
 import com.engin.eticaretkontrol.NetProgress.ApiInitialize;
 import com.engin.eticaretkontrol.NetProgress.Interfaces.OrdersDao;
 import com.engin.eticaretkontrol.NetProgress.Models.Order;
@@ -41,6 +42,7 @@ public class OrdersTabActivity extends AppCompatActivity {
     TabLayout ordersTabLayout;
     ViewPager2 viewPager;
     SharedPreferences preferences,listPreferences;
+    LoadingDialogFragment loadingDialogFragment;
     RecyclerView orderRV;
     Toolbar orderTB;
     ArrayList<Fragment> fragmentsList = new ArrayList<>();
@@ -105,8 +107,9 @@ public class OrdersTabActivity extends AppCompatActivity {
 
     public void getData(String token){
         Log.i(TAG, "Getting data from Api..." );
+        showProgressDialog();
         OrdersDao ordersDao = ApiInitialize.getOrdersDao();
-        ordersDao.getOrders("Bearer "+token /*,"approved","-id"*/).enqueue(new Callback<List<Order>>() {
+        ordersDao.getOrders("Bearer "+token ,"approved","-id").enqueue(new Callback<List<Order>>() {
             @Override
             public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
                 if (response.isSuccessful() && response.body() != null){
@@ -151,18 +154,33 @@ public class OrdersTabActivity extends AppCompatActivity {
                     ViewPagerAdapter viewPagerAdapter =new ViewPagerAdapter(OrdersTabActivity.this,fragmentsList);
                     viewPager.setAdapter(viewPagerAdapter);
                     new TabLayoutMediator(ordersTabLayout,viewPager,(tab,position) -> tab.setText(fragmentsTitle.get(position))).attach();
+                    loadingDialogFragment.dismissDialog();
                 }
                 else{
+                    loadingDialogFragment.dismissDialog();
                     Log.w(TAG, "Response is failed recognize error");
                     ErrorHandling.recognizeError(response,OrdersTabActivity.this);
                 }
             }
             @Override
             public void onFailure(Call<List<Order>> call, Throwable t) {
+                loadingDialogFragment.dismissDialog();
                 Log.e(TAG, "Response Failed ",t );
+                onBackPressed();
                 Toast.makeText(OrdersTabActivity.this,t.toString(),Toast.LENGTH_SHORT).show();
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+    }
+
+    private void showProgressDialog(){
+       loadingDialogFragment = new LoadingDialogFragment();
+       loadingDialogFragment.show(getSupportFragmentManager(),"");
     }
 }

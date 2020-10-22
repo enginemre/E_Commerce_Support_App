@@ -4,4 +4,17 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="details_title1">Sipariş Sahibi</string>
     <string name="toolbar_menu_cache_title">Ön Belleği Temizle</string>
+    <string name="app_title">E-Ticaret Servis Uygulaması</string>
+    <string name="welcome_message">Hoş Geldiniz</string>
+    <string name="menu_item_1">Sipariş Listesi</string>
+    <string name="menu_item_2">Magaza Listesi</string>
+    <string name="details_title_1">İsim Soyisim :</string>
+    <string name="details_product_title">Ürün Listesi</string>
+    <string name="details_date_title">Tarih :</string>
+    <string name="orders_row_title_1">Siparis ID :</string>
+    <string name="orders_row_title_2">Ad Soyad :</string>
+    <string name="order_row_title_3">Tarih :</string>
+    <string name="not_found_text">Gösterilecek Bir Şey Bulunamadı</string>
+    <string name="products_title1">Ürün İsmi :</string>
+    <string name="products_title2">Ürün Adeti :</string>
 </resources>

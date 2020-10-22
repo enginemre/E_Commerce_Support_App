@@ -46,5 +46,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.5.0'
     //recyclerview swipe progress
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.1'
+    //animation
+    def lottieVersion = "3.4.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
 
 }

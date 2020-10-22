@@ -6,6 +6,11 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +30,10 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     static final String TAG = "MainActivityTokenProgress";
     SharedPreferences preferences;
-    CardView orderListCV;
+    Animation left2right,right2left;
+    CardView orderListCV,storeListCV;
+    TextView appTitleTV,messsageTV;
+    ImageView logoIV;
     @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +48,28 @@ public class MainActivity extends AppCompatActivity {
             preferences.edit().putBoolean("Control",false).apply();
         }
         Toast.makeText(this,preferences.getString("access_token","NONE"),Toast.LENGTH_SHORT).show();
-        orderListCV.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, OrdersTabActivity.class)));
+        orderListCV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, OrdersTabActivity.class));
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+            }
+        });
     }
 
     public void initVariable(){
+        logoIV = findViewById(R.id.circle_logo);
+        appTitleTV = findViewById(R.id.appTitle);
+        messsageTV = findViewById(R.id.welcomeMessage);
         orderListCV = findViewById(R.id.orderListCV);
+        storeListCV = findViewById(R.id.storeListCV);
+        left2right = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.left2right);
+        right2left = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.right2left);
+        logoIV.startAnimation(right2left);
+        storeListCV.startAnimation(right2left);
+        orderListCV.startAnimation(left2right);
+        messsageTV.startAnimation(left2right);
+        appTitleTV.startAnimation(left2right);
         // Creating SharedPreferences for Access Token in Storage.
         preferences = getSharedPreferences("Tokens",MODE_PRIVATE);
         // Blocking New token request in onResume

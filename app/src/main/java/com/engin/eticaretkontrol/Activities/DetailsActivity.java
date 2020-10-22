@@ -42,7 +42,7 @@ public class DetailsActivity extends AppCompatActivity {
         int index = Order.findItem(order,localList);
         //chagecing collected state in local list
         Log.i(TAG, "Changing collected state");
-        order.collectedState = 1;
+        order.collectedState = 2;
         localList.set(index,order);
         ConfigData.setList(listPreferences,"localList",localList);
         Log.i(TAG, "Local list changed");
@@ -70,6 +70,6 @@ public class DetailsActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         startActivity(new Intent(DetailsActivity.this,OrdersTabActivity.class));
-
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
 }
