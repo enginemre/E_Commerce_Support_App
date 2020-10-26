@@ -17,4 +17,6 @@
     <string name="not_found_text">Gösterilecek Bir Şey Bulunamadı</string>
     <string name="products_title1">Ürün İsmi :</string>
     <string name="products_title2">Ürün Adeti :</string>
+    <string name="barcode_error_2">Barkod Bulunamadı</string>
+    <string name="barcode_error_1">Ürün Listesinde Bulunamadı</string>
 </resources>

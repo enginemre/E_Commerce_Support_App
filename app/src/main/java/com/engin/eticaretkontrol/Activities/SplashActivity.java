@@ -70,7 +70,7 @@ public class SplashActivity extends AppCompatActivity {
                     // error handling and Making toast message
                     else{
                         Log.w(TAG, "Response is failed Error Handling running..." );
-                       ErrorHandling.recognizeError(response,SplashActivity.this);
+                       ErrorHandling.recognizeError(response,SplashActivity.this,preferences);
                     }
                 }
                 @Override

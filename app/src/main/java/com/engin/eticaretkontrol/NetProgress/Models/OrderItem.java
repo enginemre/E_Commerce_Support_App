@@ -77,8 +77,9 @@ public class OrderItem implements Parcelable {
         return productSku;
     }
 
-    public String getProductBarcode() {
-        return productBarcode;
+    public String getProductBarcode() { return productBarcode; }
+    public void setProductBarcode(String barcode){
+        productBarcode = barcode;
     }
 
     public Double getProductPrice() {
@@ -155,7 +156,7 @@ public class OrderItem implements Parcelable {
         } else {
             orderItemCustomizations = null;
         }
-        orderItemSubscription = (Object) in.readValue(Object.class.getClassLoader());
+        orderItemSubscription = in.readValue(Object.class.getClassLoader());
     }
 
     @Override

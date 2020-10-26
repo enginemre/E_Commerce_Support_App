@@ -49,5 +49,7 @@ dependencies {
     //animation
     def lottieVersion = "3.4.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+    //barcode progress
+    implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
 
 }

@@ -159,7 +159,8 @@ public class OrdersTabActivity extends AppCompatActivity {
                 else{
                     loadingDialogFragment.dismissDialog();
                     Log.w(TAG, "Response is failed recognize error");
-                    ErrorHandling.recognizeError(response,OrdersTabActivity.this);
+                    String refresh_token =preferences.getString("refresh_token","NONE");
+                    ErrorHandling.recognizeError(response,OrdersTabActivity.this,preferences);
                 }
             }
             @Override

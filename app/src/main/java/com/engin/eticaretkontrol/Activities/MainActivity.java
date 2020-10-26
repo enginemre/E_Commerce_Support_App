@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.i(TAG, "Processes is Successful");
                     }
                     else{
-                        ErrorHandling.recognizeError(response,MainActivity.this);
+                        ErrorHandling.recognizeError(response,MainActivity.this,preferences);
                         Log.e(TAG, "onResponse: Process is Failed" );
 
                     }
