@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">ETicaretKontrol</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="details_title1">Sipariş Sahibi</string>
     <string name="toolbar_menu_cache_title">Ön Belleği Temizle</string>

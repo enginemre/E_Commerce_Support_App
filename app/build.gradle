@@ -51,5 +51,7 @@ dependencies {
     implementation "com.airbnb.android:lottie:$lottieVersion"
     //barcode progress
     implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
+    // compare List
+    implementation 'org.apache.commons:commons-collections4:4.3'
 
 }

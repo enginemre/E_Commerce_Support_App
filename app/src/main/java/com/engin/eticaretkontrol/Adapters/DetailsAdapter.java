@@ -1,6 +1,7 @@
 package com.engin.eticaretkontrol.Adapters;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,11 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
         holder.productName.setText(orderItem.getProductName());
         holder.productCount.setText(String.valueOf(orderItem.getProductQuantity()));
         holder.productPrice.setText(NumberFormat.getCurrencyInstance(new Locale("tr","TR")).format(orderItem.getProductPrice()));
-
+        if(orderItem.getCollectedState()){
+            holder.productName.setPaintFlags(holder.productName.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.productCount.setPaintFlags(holder.productCount.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.productPrice.setPaintFlags(holder.productPrice.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+        }
     }
 
     @Override

@@ -1,10 +1,12 @@
 package com.engin.eticaretkontrol.Activities;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -22,6 +24,8 @@ import com.engin.eticaretkontrol.NetProgress.ApiInitialize;
 import com.engin.eticaretkontrol.NetProgress.Interfaces.TokenDao;
 import com.engin.eticaretkontrol.NetProgress.Models.Token;
 import com.engin.eticaretkontrol.R;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,10 +46,24 @@ public class MainActivity extends AppCompatActivity {
         initVariable();
         // Blocking New token request in onResume and  Sending requests for get Authentication
         if(preferences.getBoolean("Control",true)){
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://hakmarmagazacilik.myideasoft.com/admin/user/auth"+"?client_id="+ConfigData.CLIENT_ID +"&response_type="+ConfigData.RESPONSE_TYPE+"&state="+ConfigData.STATE+"&redirect_uri=" + ConfigData.REDIRECT_URI));
-            startActivity(intent);
-            Log.i(TAG, " Request is sent");
-            preferences.edit().putBoolean("Control",false).apply();
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("googlechrome://navigate?url="+"https://hakmarmagazacilik.myideasoft.com/admin/user/auth"+"?client_id="+ConfigData.CLIENT_ID +"&response_type="+ConfigData.RESPONSE_TYPE+"&state="+ConfigData.STATE+"&redirect_uri=" + ConfigData.REDIRECT_URI));
+                startActivity(intent);
+                Log.i(TAG, " Request is sent");
+                preferences.edit().putBoolean("Control",false).apply();
+            }catch (Exception e){
+                View parent =findViewById(android.R.id.content);
+                Snackbar snackbar = Snackbar.make(parent,"Chorme Yükleyin...", BaseTransientBottomBar.LENGTH_LONG).setAction("İNDİR"
+                        ,
+                        new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/url?sa=t&source=web&rct=j&url=https://play.google.com/store/apps/details%3Fid%3Dcom.android.chrome%26hl%3Dtr%26gl%3DUS&ved=2ahUKEwi4oYu7rNLsAhX9BGMBHWfTBksQjjgwA3oECAQQAQ&usg=AOvVaw2CWX52s_cWdPbz7gUJkrkD"));
+                            startActivity(browserIntent);
+                        }
+                    });
+            }
+
         }
         Toast.makeText(this,preferences.getString("access_token","NONE"),Toast.LENGTH_SHORT).show();
         orderListCV.setOnClickListener(new View.OnClickListener() {

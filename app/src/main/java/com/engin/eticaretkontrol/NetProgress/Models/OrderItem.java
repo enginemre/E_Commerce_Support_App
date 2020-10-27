@@ -64,6 +64,10 @@ public class OrderItem implements Parcelable {
     @Expose
     private Object orderItemSubscription;
 
+    public boolean collectedState =false;
+
+    public boolean getCollectedState(){return collectedState;}
+
     public Integer getId() {
         return id;
     }
@@ -247,5 +251,15 @@ public class OrderItem implements Parcelable {
             return new OrderItem[size];
         }
     };
+
+    public static  int findItem(OrderItem orderItem,List<OrderItem> list){
+        for(OrderItem o:list){
+            if (orderItem.getId().equals(o.getId())){
+                return list.indexOf(o);
+            }
+        }
+        return -1;
+    }
+
 
 }
